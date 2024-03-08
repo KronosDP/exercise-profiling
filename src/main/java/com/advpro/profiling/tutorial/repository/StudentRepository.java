@@ -2,11 +2,14 @@ package com.advpro.profiling.tutorial.repository;
 
 import com.advpro.profiling.tutorial.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-/**
- * @author muhammad.khadafi
- */
+import java.util.List;
+
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
+
+    @Query(value = "SELECT * FROM students where gpa = (SELECT MAX(gpa) from students)", nativeQuery = true)
+    List<Student> findStudentWithHighestGpa();
 }
